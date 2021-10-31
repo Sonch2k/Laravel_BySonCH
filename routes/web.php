@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('loginForm', function () {
-    return view('login');
+    view('results')->with('message', 'Thanh Cong');
 });
 
