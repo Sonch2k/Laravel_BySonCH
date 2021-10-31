@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('summitUrl','Api\UserController@loginForm');
+Route::get('summitUrl','Api\UserController@loginForm');
 Route::post('auth','Api\UserController@auth');
 Route::post('register','Api\UserController@register');
 Route::get('list','Api\UserController@list')->middleware('jwt.auth');
