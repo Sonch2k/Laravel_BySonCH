@@ -65,7 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         // JWT middleware
-        //'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         'jwt.auth' => FilterToken::class,
     ];
 }
