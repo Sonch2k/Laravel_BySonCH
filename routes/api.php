@@ -20,5 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('summitUrl','Api\UserController@loginForm');
 Route::post('auth','Api\UserController@auth');
 Route::post('register','Api\UserController@register');
-Route::get('list','Api\UserController@list')->middleware('auth.jwt');
+Route::post('list','Api\UserController@list')->middleware('auth.jwt');
 Route::post('changePassword','Api\UserController@changePassword');
