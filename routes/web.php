@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('loginForm', function () {
-    view('results')->with('message', 'Thanh Cong');
+Route::post('loginForm', function () {
+    return view('login');
 });
 
