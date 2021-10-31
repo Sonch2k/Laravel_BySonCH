@@ -19,3 +19,8 @@ Route::get('/', function () {
 Route::get('loginForm', function () {
     return view('login');
 });
+Route::post('summitUrl','Api\UserController@loginForm');
+Route::post('auth','Api\UserController@auth');
+Route::post('register','Api\UserController@register');
+Route::get('list','Api\UserController@list')->middleware('jwt.auth');
+Route::post('changePassword','Api\UserController@changePassword');
