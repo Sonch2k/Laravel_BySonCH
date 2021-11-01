@@ -12,6 +12,12 @@
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "https://son-new-laravel.herokuapp.com",
+            "description": "Demo API Server"
+        }
+    ],
     "paths": {
         "/api/auth": {
             "post": {
@@ -66,6 +72,30 @@
                                         "status": {
                                             "type": "int",
                                             "example": "403 "
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "eya432m653n23maskg235k3mj5k32.34m323maskg235k3mj5k3n5Gm.alkjh3maskg235k3mj5k3n532m"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "login Successfully!"
+                                        },
+                                        "status": {
+                                            "type": "int",
+                                            "example": "200"
                                         }
                                     },
                                     "type": "object"
@@ -141,6 +171,30 @@
                                 }
                             }
                         }
+                    },
+                    "200": {
+                        "description": "Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "register Successfully!"
+                                        },
+                                        "status": {
+                                            "type": "int",
+                                            "example": "200"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -171,6 +225,30 @@
                                         "status": {
                                             "type": "int",
                                             "example": "404"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{\n     *'id': 1,\n     *'name': 'Chu Quang Anh',\n     *'email': 'ahihi@gmail.com',\n     *'email_verified_at': null,\n     *'created_at': null,\n     *'updated_at': null\n     * }\n    "
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Change password successfully!"
+                                        },
+                                        "status": {
+                                            "type": "int",
+                                            "example": "200"
                                         }
                                     },
                                     "type": "object"
@@ -236,7 +314,7 @@
                                     "properties": {
                                         "data": {
                                             "type": "string",
-                                            "example": []
+                                            "example": ""
                                         },
                                         "message": {
                                             "type": "string",
@@ -245,6 +323,30 @@
                                         "status": {
                                             "type": "int",
                                             "example": "201"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Change password successfully!"
+                                        },
+                                        "status": {
+                                            "type": "int",
+                                            "example": "200"
                                         }
                                     },
                                     "type": "object"

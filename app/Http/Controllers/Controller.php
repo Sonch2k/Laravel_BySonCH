@@ -20,6 +20,10 @@ use Illuminate\Routing\Controller as BaseController;
  *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
  *      )
  * )
+ * @OA\Server(
+ *      url=L5_SWAGGER_CONST_HOST,
+ *      description="Demo API Server"
+ * )
  * @OA\SecurityScheme(
  *      securityScheme="bearer_token",
  *      type="http",

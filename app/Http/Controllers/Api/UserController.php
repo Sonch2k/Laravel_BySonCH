@@ -15,6 +15,7 @@ class UserController extends Controller
     {
         $this->userService = $userService;
     }
+
     /** * @OA\Post(
      * path="/api/auth",
      * summary="Sign in",
@@ -35,13 +36,22 @@ class UserController extends Controller
      * @OA\Property(property="message", type="string", example="Forbidden,Try again!"),
      * @OA\Property(property="status", type="int", example="403 ")
      * )
+     * ),
+     * @OA\Response( * response=200,
+     * description="Successfully",
+     * @OA\JsonContent(
+     * @OA\Property(property="data", type="string", example="eya432m653n23maskg235k3mj5k32.34m323maskg235k3mj5k3n5Gm.alkjh3maskg235k3mj5k3n532m"),
+     * @OA\Property(property="message", type="string", example="login Successfully!"),
+     * @OA\Property(property="status", type="int", example="200")
      * )
+     * ),
      * )
      */
     public function auth(Request $request)
     {
         return $this->userService->authenJWT($request);
     }
+
     /** * @OA\Post(
      * path="/api/register",
      * summary="Register",
@@ -63,13 +73,22 @@ class UserController extends Controller
      * @OA\Property(property="message", type="string", example="User1 is duplicate.Try Agian!"),
      * @OA\Property(property="status", type="int", example="201")
      * )
+     * ),
+     * @OA\Response( * response=200,
+     * description="Successfully",
+     * @OA\JsonContent(
+     * @OA\Property(property="data", type="string", example=""),
+     * @OA\Property(property="message", type="string", example="register Successfully!"),
+     * @OA\Property(property="status", type="int", example="200")
      * )
+     * ),
      * )
      */
     public function register(Request $request)
     {
         return $this->userService->registerUser($request);
     }
+
     /** * @OA\Get(
      * path="/api/list",
      * summary="List user",
@@ -84,13 +103,30 @@ class UserController extends Controller
      * @OA\Property(property="message", type="string", example="filter token fail"),
      * @OA\Property(property="status", type="int", example="404")
      * )
+     * ),
+     * @OA\Response( * response=200,
+     * description="Successfully",
+     * @OA\JsonContent(
+     * @OA\Property(property="data", type="string", example="{
+     *'id': 1,
+     *'name': 'Chu Quang Anh',
+     *'email': 'ahihi@gmail.com',
+     *'email_verified_at': null,
+     *'created_at': null,
+     *'updated_at': null
+     * }
+    "),
+     * @OA\Property(property="message", type="string", example="Change password successfully!"),
+     * @OA\Property(property="status", type="int", example="200")
      * )
+     * ),
      * )
      */
     public function list(Request $request)
     {
         return $this->userService->getAllUsers();
     }
+
     /** * @OA\Post(
      * path="/api/changePassword",
      * summary="Change",
@@ -108,17 +144,26 @@ class UserController extends Controller
      * @OA\Response( * response=201,
      * description="wrong infomations",
      * @OA\JsonContent(
-     * @OA\Property(property="data", type="string", example={}),
+     * @OA\Property(property="data", type="string", example=""),
      * @OA\Property(property="message", type="string", example="eamil or password is not correctly.Try Agian!"),
      * @OA\Property(property="status", type="int", example="201")
      * )
+     * ),
+     * @OA\Response( * response=200,
+     * description="Successfully",
+     * @OA\JsonContent(
+     * @OA\Property(property="data", type="string", example=""),
+     * @OA\Property(property="message", type="string", example="Change password successfully!"),
+     * @OA\Property(property="status", type="int", example="200")
      * )
+     * ),
      * )
      */
     public function changePassword(Request $request)
     {
         return $this->userService->changePassword($request);
     }
+
     public function loginForm(Request $request)
     {
         $credentials = [
