@@ -9,8 +9,16 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- * title="Your Application API document",
- * version="1.0.0",
+ *     title="Your Application API document",
+ *     version="1.0.0",
+ *     description="L5 Swagger OpenApi description",
+ *      @OA\Contact(
+ *          email="sonchhe2k@gmail.com"
+ *      ),
+ *      @OA\License(
+ *          name="Apache 2.0",
+ *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
+ *      )
  * )
  * @OA\SecurityScheme(
  *      securityScheme="bearer_token",

@@ -2,6 +2,14 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Your Application API document",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "sonchhe2k@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "1.0.0"
     },
     "paths": {

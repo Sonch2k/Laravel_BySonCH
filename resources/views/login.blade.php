@@ -1,6 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -180,7 +178,7 @@
 <!--    <p th:text="${session.error}" th:unless="${session == null}">[...]</p>-->
 <!--</div>-->
 <!--<div th:if="${param.logout}">You have been logged out.</div>-->
-<form th:action="api/summitUrl" method="get" style="max-width:550px;min-width:380px;margin:auto">
+<form action="api/summitUrl" method="post" style="max-width:550px;min-width:380px;margin:auto">
     <div class="Loginform">
         <div class="Sign-In-box">
             <span class="Sign-In">
