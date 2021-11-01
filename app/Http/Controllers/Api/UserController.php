@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Http\Services\userServices;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -175,5 +178,15 @@ class UserController extends Controller
         } else {
             return view('results')->with('message', 'That Bai');
         }
+    }
+    public function index()
+    {
+        $users= User::all();
+        return view('users.index', compact('users'));
+    }
+
+    public function exportFile()
+    {
+        return Excel::download(new UserExport, 'usersList.csv');
     }
 }
