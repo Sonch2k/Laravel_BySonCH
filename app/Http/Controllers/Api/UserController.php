@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Http\Services\userServices;
+use App\Imports\UsersImport;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
+
+//use Maatwebsite\Excel\Facades\Excel;
+use Excel;
 
 class UserController extends Controller
 {
@@ -179,14 +182,28 @@ class UserController extends Controller
             return view('results')->with('message', 'That Bai');
         }
     }
+
     public function index()
     {
-        $users= User::all();
+        $users = User::all();
         return view('users.index', compact('users'));
     }
 
     public function exportFile()
     {
-        return Excel::download(new UserExport, 'usersList.csv');
+        $export = new UserExport;
+//        return Excel::create('export data', function ($excel) use ($export) {
+//            $export->sheet('sheet 1', function ($sheet) use ($export) {
+//                $sheet->fromArray($export);
+//            });
+//        })->export('csv');
+        return Excel::download($export, 'usersList.csv');
+    }
+
+    public function import(Request $request)
+    {
+        $path = $request->file('file')->getRealPath();
+        Excel::import(new UsersImport, $path);
+        return back();
     }
 }

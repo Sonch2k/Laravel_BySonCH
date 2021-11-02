@@ -21,5 +21,6 @@ Route::get('loginForm', function () {
 });
 Route::get('users', 'Api\UserController@index');
 Route::get('users/exportFile', 'Api\UserController@exportFile');
+Route::post('import', 'Api\UserController@import')->name('import');
 //->name('user.index')->name('user.export-file')
 
