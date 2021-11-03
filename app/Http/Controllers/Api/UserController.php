@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 //use Maatwebsite\Excel\Facades\Excel;
 use Excel;
+use Illuminate\Support\LazyCollection;
 
 class UserController extends Controller
 {
@@ -200,10 +201,38 @@ class UserController extends Controller
         return Excel::download($export, 'usersList.csv');
     }
 
-    public function import(Request $request)
-    {
-        $path = $request->file('file')->getRealPath();
-        Excel::import(new UsersImport, $path);
+    public function import()
+    {   $result=[];
+        //$path = $request->file('file')->getRealPath();
+        //Excel::import(new UsersImport, $path);
+        //return back();
+        LazyCollection::make(function () {
+            $path = storage_path('app/public/MODEL.csv');
+            $handle = fopen($path, 'r');
+            while ($line = fgetcsv($handle)) {
+                yield $line;
+            }
+        })
+            ->chunk(1000)
+            ->each(function ($lines) {
+                $count=0;
+                $list = [];
+                foreach ($lines as $x) {
+                    if (isset($x)) {
+                        $count++;
+                        $list[] = [
+                            "id" => $x[0],
+                            "name" => $x[1],
+                            "email" => $x[2],
+//                            "email_verified_at" => $line[3],
+//                            "updated_at" => $line[4],
+//                            "created_at" => $line[5],
+                        ];
+                    }
+                }
+                User::insert($list);
+            });
         return back();
+        //"id","name","email","email_verified_at","updated_at","created_at"
     }
 }

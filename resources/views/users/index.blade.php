@@ -10,6 +10,13 @@
 </head>
 <body>
 <a href="{{ action('Api\UserController@exportFile') }}">Export File</a>
+<form action="api/import" method="POST" enctype="multipart/form-data">
+    <button class="import" type="submit" value="Sign In">
+                <span class="TypeText">
+                    Import File
+                </span>
+    </button>
+</form>
     <table class="table table-striped">
         <thead>
         <th>ID</th>
@@ -26,21 +33,21 @@
         @endforeach
         </tbody>
     </table>
-<div class="container">
-    <div class="card bg-light mt-3">
-        <div class="card-header">
-            Laravel Import Excel to database Example - ItSolutionStuff.com
-        </div>
-        <div class="card-body">
-            <form action="import" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="file" name="file" class="form-control">
-                <br>
-                <button class="btn btn-success">Import User Data</button>
-            </form>
-        </div>
-    </div>
-</div>
+{{--<div class="container">--}}
+{{--    <div class="card bg-light mt-3">--}}
+{{--        <div class="card-header">--}}
+{{--            Laravel Import Excel to database Example - ItSolutionStuff.com--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <form action="import" method="POST" enctype="multipart/form-data">--}}
+{{--                @csrf--}}
+{{--                <input type="file" name="file" class="form-control">--}}
+{{--                <br>--}}
+{{--                <button class="btn btn-success">Import User Data</button>--}}
+{{--            </form>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 </body>
 </html>
 
