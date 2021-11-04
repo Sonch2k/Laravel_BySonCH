@@ -25,6 +25,6 @@ abstract class RepositoryImpl implements Repository
 
     public function findById($id)
     {
-        return $this->model->find($id)->first();
+        return $this->model->find($id);
     }
 }

@@ -202,10 +202,12 @@ class UserController extends Controller
     }
 
     public function import()
-    {   $result=[];
+    {
+        $result = [];
         //$path = $request->file('file')->getRealPath();
         //Excel::import(new UsersImport, $path);
         //return back();
+
         LazyCollection::make(function () {
             $path = storage_path('app/public/MODEL.csv');
             $handle = fopen($path, 'r');
@@ -215,19 +217,21 @@ class UserController extends Controller
         })
             ->chunk(1000)
             ->each(function ($lines) {
-                $count=0;
                 $list = [];
                 foreach ($lines as $x) {
                     if (isset($x)) {
-                        $count++;
-                        $list[] = [
-                            "id" => $x[0],
-                            "name" => $x[1],
-                            "email" => $x[2],
+                        if (!empty($x[0]) && !empty($x[1]) && !empty($x[2])) {
+                            $list[] = [
+                                "id" => $x[0],
+                                "name" => $x[1],
+                                "email" => $x[2],
 //                            "email_verified_at" => $line[3],
 //                            "updated_at" => $line[4],
 //                            "created_at" => $line[5],
-                        ];
+                            ];
+                        }else{
+                            return view('results')->with('message','text file is empty.Let change it!');
+                        }
                     }
                 }
                 User::insert($list);
