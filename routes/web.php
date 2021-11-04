@@ -10,6 +10,5 @@ Route::get('loginForm', function () {
 });
 Route::get('users', 'Api\UserController@index');
 Route::get('users/exportFile', 'Api\UserController@exportFile');
-
 //->name('user.index')->name('user.export-file')
 

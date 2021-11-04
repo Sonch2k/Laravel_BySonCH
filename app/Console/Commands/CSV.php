@@ -64,7 +64,7 @@ class CSV extends Command
                 yield $line;
             }
         })
-            ->chunk(1000)
+            ->chunk(500)
             ->each(function ($lines) {
                 $list = [];
                 foreach ($lines as $x) {

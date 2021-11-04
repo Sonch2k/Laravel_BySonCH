@@ -31,5 +31,3 @@ Route::post('register','Api\UserController@register');
 Route::get('list','Api\UserController@list')->middleware('jwt.auth');
 Route::post('changePassword','Api\UserController@changePassword');
 
-Route::post('import', 'Api\UserController@import')->name('import');
-

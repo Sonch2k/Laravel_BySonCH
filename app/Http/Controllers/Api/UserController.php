@@ -170,7 +170,6 @@ class UserController extends Controller
     {
         return $this->userService->changePassword($request);
     }
-
     public function loginForm(Request $request)
     {
         $credentials = [
@@ -183,60 +182,18 @@ class UserController extends Controller
             return view('results')->with('message', 'That Bai');
         }
     }
-
     public function index()
     {
         $users = User::all();
         return view('users.index', compact('users'));
     }
-
     public function exportFile()
     {
-        $export = new UserExport;
-//        return Excel::create('export data', function ($excel) use ($export) {
-//            $export->sheet('sheet 1', function ($sheet) use ($export) {
-//                $sheet->fromArray($export);
-//            });
-//        })->export('csv');
-        return Excel::download($export, 'usersList.csv');
+        $this->letGo();
+        print ('be done');
     }
-
-    public function import()
-    {
-        $result = [];
-        //$path = $request->file('file')->getRealPath();
-        //Excel::import(new UsersImport, $path);
-        //return back();
-
-        LazyCollection::make(function () {
-            $path = storage_path('app/public/MODEL.csv');
-            $handle = fopen($path, 'r');
-            while ($line = fgetcsv($handle)) {
-                yield $line;
-            }
-        })
-            ->chunk(1000)
-            ->each(function ($lines) {
-                $list = [];
-                foreach ($lines as $x) {
-                    if (isset($x)) {
-                        if (!empty($x[0]) && !empty($x[1]) && !empty($x[2])) {
-                            $list[] = [
-                                "id" => $x[0],
-                                "name" => $x[1],
-                                "email" => $x[2],
-//                            "email_verified_at" => $line[3],
-//                            "updated_at" => $line[4],
-//                            "created_at" => $line[5],
-                            ];
-                        }else{
-                            return view('results')->with('message','text file is empty.Let change it!');
-                        }
-                    }
-                }
-                User::insert($list);
-            });
-        return back();
-        //"id","name","email","email_verified_at","updated_at","created_at"
+    public function letGo(){
+        $export = new UserExport;
+        return Excel::download($export,'userList.csv');
     }
 }

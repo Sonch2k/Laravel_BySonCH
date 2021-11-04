@@ -10,29 +10,22 @@
 </head>
 <body>
 <a href="{{ action('Api\UserController@exportFile') }}">Export File</a>
-<form action="api/import" method="POST" enctype="multipart/form-data">
-    <button class="import" type="submit" value="Sign In">
-                <span class="TypeText">
-                    Import File
-                </span>
-    </button>
-</form>
-    <table class="table table-striped">
-        <thead>
-        <th>ID</th>
-        <th>Name</th>
-        <th>EMAIL</th>
-        </thead>
-        <tbody>
-        @foreach($users as $user)
-            <tr>
-                <td>{{$user->id}}</td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+{{--    <table class="table table-striped">--}}
+{{--        <thead>--}}
+{{--        <th>ID</th>--}}
+{{--        <th>Name</th>--}}
+{{--        <th>EMAIL</th>--}}
+{{--        </thead>--}}
+{{--        <tbody>--}}
+{{--        @foreach($users as $user)--}}
+{{--            <tr>--}}
+{{--                <td>{{$user->id}}</td>--}}
+{{--                <td>{{$user->name}}</td>--}}
+{{--                <td>{{$user->email}}</td>--}}
+{{--            </tr>--}}
+{{--        @endforeach--}}
+{{--        </tbody>--}}
+{{--    </table>--}}
 {{--<div class="container">--}}
 {{--    <div class="card bg-light mt-3">--}}
 {{--        <div class="card-header">--}}
