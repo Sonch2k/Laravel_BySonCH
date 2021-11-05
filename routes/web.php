@@ -8,7 +8,4 @@ Route::get('/', function () {
 Route::get('loginForm', function () {
     return view('login');
 });
-Route::get('users', 'Api\UserController@index');
-Route::get('users/exportFile', 'Api\UserController@exportFile');
-//->name('user.index')->name('user.export-file')
 

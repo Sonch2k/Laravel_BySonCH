@@ -182,18 +182,4 @@ class UserController extends Controller
             return view('results')->with('message', 'That Bai');
         }
     }
-    public function index()
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
-    }
-    public function exportFile()
-    {
-        $this->letGo();
-        print ('be done');
-    }
-    public function letGo(){
-        $export = new UserExport;
-        return Excel::download($export,'userList.csv');
-    }
 }
