@@ -50,21 +50,21 @@ class CSV extends Command
      */
     public function handle()
     {
-        $path = storage_path('app/public/MODEL.csv');
-        $handle = fopen($path, 'r');
-        while ($var = fgetcsv($handle)) {
-            if (!$this->validate($var)) {
-                return;
-            }
-        }
+//        $path = storage_path('app/public/ListModel.csv');
+//        $handle = fopen($path, 'r');
+//        while ($var = fgetcsv($handle)) {
+//            if (!$this->validate($var)) {
+//                return;
+//            }
+//        }
         LazyCollection::make(function () {
-            $path = storage_path('app/public/MODEL.csv');
+            $path = storage_path('app/public/ListModel.csv');
             $handle = fopen($path, 'r');
             while ($line = fgetcsv($handle)) {
                 yield $line;
             }
         })
-            ->chunk(500)
+            ->chunk(1000)
             ->each(function ($lines) {
                 $list = [];
                 foreach ($lines as $x) {
@@ -73,6 +73,10 @@ class CSV extends Command
                             "id" => $x[0],
                             "name" => $x[1],
                             "email" => $x[2],
+                            "password" => $x[4],
+                          //  "email_verified_at"=>$x[3],
+                           // "updated_at"=>$x[5],
+                           // "created_at"=>$x[6],
                         ];
                     }
                 }

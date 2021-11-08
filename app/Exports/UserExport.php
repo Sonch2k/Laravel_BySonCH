@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use mysql_xdevapi\Result;
 
 class UserExport implements FromCollection
 {

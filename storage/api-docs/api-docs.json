@@ -270,7 +270,7 @@
                     "changePassword"
                 ],
                 "summary": "Change",
-                "description": "Register by email, password",
+                "description": "Change by email, password",
                 "operationId": "changePassword",
                 "requestBody": {
                     "description": "Pass user credentials",

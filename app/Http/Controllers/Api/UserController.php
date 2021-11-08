@@ -137,7 +137,7 @@ class UserController extends Controller
     /** * @OA\Post(
      * path="/api/changePassword",
      * summary="Change",
-     * description="Register by email, password",
+     * description="Change by email, password",
      * operationId="changePassword",
      * tags={"changePassword"},
      * @OA\RequestBody( * required=true,

@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Console\Command;
 use Excel;
 use Illuminate\Support\Facades\Response;
+
 class ExportCSV extends Command
 {
     /**
@@ -43,14 +44,19 @@ class ExportCSV extends Command
     {
         $this->exportFile();
     }
+
     public function exportFile()
     {
         $this->kaka();
         print ('be done');
     }
-    public function letGo(){
-//        $export = new UserExport;
-//        return Excel::download($export,'userList.csv');
+
+    public function letGo()
+    {
+        header('Content-Type: text/csv;charset=utf-8');
+        header('Content-Disposition: attachment;filename=UserList.csv');
+ //       $export = new UserExport;
+  //      return Excel::download($export, 'userList.csv');
         $headers = [
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0'
             ,   'Content-type'        => 'text/csv'
@@ -69,6 +75,15 @@ class ExportCSV extends Command
             fclose($FH);
         };
         return Response::stream($callback, 200, $headers);
+//        header('Content-Type: text/csv;charset=utf-8');
+//        header('Content-Disposition: attachment;filename=UserList.csv');
+//        $FH = fopen('php://output', 'w');
+//        $list = User::all()->toArray();
+//        //array_unshift($list, array_keys($list[0]));
+//        foreach ($list as $row) {
+//            fputcsv($FH, $row);
+//        }
+//        fclose($FH);
     }
     public function kaka(){
         return self::letGo();
