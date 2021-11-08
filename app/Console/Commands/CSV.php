@@ -50,13 +50,13 @@ class CSV extends Command
      */
     public function handle()
     {
-//        $path = storage_path('app/public/ListModel.csv');
-//        $handle = fopen($path, 'r');
-//        while ($var = fgetcsv($handle)) {
-//            if (!$this->validate($var)) {
-//                return;
-//            }
-//        }
+        $path = storage_path('app/public/ListModel.csv');
+        $handle = fopen($path, 'r');
+        while ($var = fgetcsv($handle)) {
+            if (!$this->validate($var)) {
+                return;
+            }
+        }
         LazyCollection::make(function () {
             $path = storage_path('app/public/ListModel.csv');
             $handle = fopen($path, 'r');
@@ -74,9 +74,6 @@ class CSV extends Command
                             "name" => $x[1],
                             "email" => $x[2],
                             "password" => $x[4],
-                          //  "email_verified_at"=>$x[3],
-                           // "updated_at"=>$x[5],
-                           // "created_at"=>$x[6],
                         ];
                     }
                 }
@@ -84,17 +81,18 @@ class CSV extends Command
             });
         print ('data be done!');
     }
+
     public function validate($list)
     {
         if (ctype_digit($list[0]) && !empty($list[1])) {
-            $check=$this->userRepository->findById((int)$list[0]);
-            if(empty($check)){
+            $check = $this->userRepository->findById((int)$list[0]);
+            if (empty($check)) {
                 if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
                     print('Email wrong format!');
                     return false;
                 }
                 return true;
-            }else{
+            } else {
                 print('Duplicate id.Try Again');
                 return false;
             }

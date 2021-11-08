@@ -47,34 +47,34 @@ class ExportCSV extends Command
 
     public function exportFile()
     {
-        $this->kaka();
+        $this->letGo();
         print ('be done');
     }
 
     public function letGo()
     {
-        header('Content-Type: text/csv;charset=utf-8');
-        header('Content-Disposition: attachment;filename=UserList.csv');
- //       $export = new UserExport;
-  //      return Excel::download($export, 'userList.csv');
-        $headers = [
-            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0'
-            ,   'Content-type'        => 'text/csv'
-            ,   'Content-Disposition' => 'attachment; filename=galleries.csv'
-            ,   'Expires'             => '0'
-            ,   'Pragma'              => 'public'
-        ];
-        $list = User::all()->toArray();
-        array_unshift($list, array_keys($list[0]));
-        $callback = function() use ($list)
-        {
-            $FH = fopen('php://output', 'w');
-            foreach ($list as $row) {
-                fputcsv($FH, $row);
-            }
-            fclose($FH);
-        };
-        return Response::stream($callback, 200, $headers);
+        $export = new UserExport;
+        return Excel::download($export, 'userList.csv');
+//        header('Content-Type: text/csv;charset=utf-8');
+//        header('Content-Disposition: attachment;filename=UserList.csv');
+//        $headers = [
+//            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0'
+//            ,   'Content-type'        => 'text/csv'
+//            ,   'Content-Disposition' => 'attachment; filename=galleries.csv'
+//            ,   'Expires'             => '0'
+//            ,   'Pragma'              => 'public'
+//        ];
+//        $list = User::all()->toArray();
+//        array_unshift($list, array_keys($list[0]));
+//        $callback = function() use ($list)
+//        {
+//            $FH = fopen('php://output', 'w');
+//            foreach ($list as $row) {
+//                fputcsv($FH, $row);
+//            }
+//            fclose($FH);
+//        };
+//        return Response::stream($callback, 200, $headers);
 //        header('Content-Type: text/csv;charset=utf-8');
 //        header('Content-Disposition: attachment;filename=UserList.csv');
 //        $FH = fopen('php://output', 'w');
@@ -84,8 +84,5 @@ class ExportCSV extends Command
 //            fputcsv($FH, $row);
 //        }
 //        fclose($FH);
-    }
-    public function kaka(){
-        return self::letGo();
     }
 }
