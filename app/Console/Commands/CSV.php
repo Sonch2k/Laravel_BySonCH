@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Repository\Model\UserRepository;
 use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
 use mysql_xdevapi\Exception;
 use phpDocumentor\Reflection\Types\This;
@@ -43,62 +44,70 @@ class CSV extends Command
 //        parent::__construct();
 //    }
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    public function validate($list, $array)
+    {
+        if (ctype_digit($list[0]) && !empty($list[1])) {
+            if (sizeof($array) == 1000) {
+                $users = User::whereIn('id', $array)->get();
+                if (!empty($users[0])) {
+                    print('Duplicate id.Try Again');
+                    return false;
+                }
+            }
+            if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
+                print('Email wrong format!');
+                return false;
+            }
+            return true;
+        } else {
+            print('id must be Integer and name not null!');
+            return false;
+        }
+    }
+
     public function handle()
     {
         $path = storage_path('app/public/ListModel.csv');
         $handle = fopen($path, 'r');
+        $array = [];
         while ($var = fgetcsv($handle)) {
-            if (!$this->validate($var)) {
+            $array[] = $var[0];
+            if (!$this->validate($var, $array)) {
                 return;
             }
+            if (sizeof($array) == 1000) {
+                $array = [];
+            }
         }
-        LazyCollection::make(function () {
-            $path = storage_path('app/public/ListModel.csv');
-            $handle = fopen($path, 'r');
-            while ($line = fgetcsv($handle)) {
-                yield $line;
-            }
-        })
-            ->chunk(1000)
-            ->each(function ($lines) {
-                $list = [];
-                foreach ($lines as $x) {
-                    if (isset($x)) {
-                        $list[] = [
-                            "id" => $x[0],
-                            "name" => $x[1],
-                            "email" => $x[2],
-                            "password" => $x[4],
-                        ];
+        DB::beginTransaction();
+        try {
+            LazyCollection::make(function () {
+                $path = storage_path('app/public/ListModel.csv');
+                $handle = fopen($path, 'r');
+                while ($line = fgetcsv($handle)) {
+                    yield $line;
+                }
+            })
+                ->chunk(1000)
+                ->each(function ($lines) {
+                    $list = [];
+                    foreach ($lines as $x) {
+                        if (isset($x)) {
+                            $list[] = [
+                                "id" => $x[0],
+                                "name" => $x[1],
+                                "email" => $x[2],
+                                "password" => $x[4],
+                            ];
+                        }
                     }
-                }
-                User::insert($list);
-            });
-        print ('data be done!');
-    }
-
-    public function validate($list)
-    {
-        if (ctype_digit($list[0]) && !empty($list[1])) {
-            $check = $this->userRepository->findById((int)$list[0]);
-            if (empty($check)) {
-                if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
-                    print('Email wrong format!');
-                    return false;
-                }
-                return true;
-            } else {
-                print('Duplicate id.Try Again');
-                return false;
-            }
-        } else {
-            print('id must be Integer and name not null!');
-            return false;
+                    User::insert($list);
+                });
+            DB::commit();
+            print ('data be done!');
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
         }
     }
 }

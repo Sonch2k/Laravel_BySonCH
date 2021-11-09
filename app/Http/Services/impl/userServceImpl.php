@@ -5,9 +5,6 @@ namespace App\Http\Services\impl;
 use App\Http\Repository\Model\UserRepository;
 use App\Http\Services\userServices;
 use App\User;
-use http\Env\Response;
-use Illuminate\Hashing\BcryptHasher;
-use Tymon\JWTAuth\JWTAuth;
 
 class userServceImpl implements userServices
 {
@@ -74,7 +71,7 @@ class userServceImpl implements userServices
             return Response()->json(
                 [
                     'message' => "Successfully register",
-                    'data' => $userCreate,
+                    'data' => null,
                     'status' => '200'
                 ], 200
             );

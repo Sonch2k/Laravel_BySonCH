@@ -2,8 +2,6 @@
 
 namespace App\Http\Repository\Model\impl;
 
-use App\Http\Repository\Base\BaseRepositoryImpl;
-use App\Http\Repository\Base\Repository;
 use App\Http\Repository\Base\RepositoryImpl;
 use App\Http\Repository\Model\UserRepository;
 use App\User;
@@ -34,6 +32,7 @@ class UserReposirotyImpl extends RepositoryImpl implements UserRepository
     {
         return $this->model->where('email', $email)->first();
     }
+
     public function changePass($request)
     {
         $credentials = [
@@ -41,8 +40,8 @@ class UserReposirotyImpl extends RepositoryImpl implements UserRepository
             'password' => $request['old_pass']
         ];
         if (auth()->attempt($credentials)) {
-            $user=$this->findByEmail($request['email']);
-            $user['password']=bcrypt($request['new_pass']);
+            $user = $this->findByEmail($request['email']);
+            $user['password'] = bcrypt($request['new_pass']);
             $user->save();
             return true;
         } else {
