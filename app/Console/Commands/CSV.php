@@ -67,6 +67,7 @@ class CSV extends Command
 
     public function handle()
     {
+        $time_pre = microtime(true);
         $path = storage_path('app/public/ListModel.csv');
         $handle = fopen($path, 'r');
         $array = [];
@@ -79,8 +80,7 @@ class CSV extends Command
                 $array = [];
             }
         }
-        DB::beginTransaction();
-        try {
+        DB::transaction(function () {
             LazyCollection::make(function () {
                 $path = storage_path('app/public/ListModel.csv');
                 $handle = fopen($path, 'r');
@@ -101,13 +101,12 @@ class CSV extends Command
                             ];
                         }
                     }
-                    User::insert($list);
+                    DB::table('users')->insert($list);
                 });
-            DB::commit();
-            print ('data be done!');
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw new Exception($e->getMessage());
-        }
+        });
+        $time_post = microtime(true);
+        $exec_time = $time_post - $time_pre;
+        print ('data be done in ');
+        print ($exec_time);
     }
 }
