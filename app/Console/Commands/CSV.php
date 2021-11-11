@@ -39,58 +39,57 @@ class CSV extends Command
      *
      * @return void
      */
-    public function validate($list, $array,$check)
+    public function validateType($handle)
     {
-        if($check==true){
-            $users = User::whereIn('id', $array)->get();
-            if (!empty($users[0])) {
-                print('Duplicate id.Try Again');
-                return false;
-            }
-            return true;
-        }
-        //check id must integer and name not empty
-        if (ctype_digit($list[0]) && !empty($list[1])) {
-            //check number of elements in id array, is last record of file csv or not
-            if (sizeof($array) == 1000) {
-                $users = User::whereIn('id', $array)->get();
-                if (!empty($users[0])) {
-                    print('Duplicate id.Try Again');
+        while ($var = fgetcsv($handle)) {
+            //check id must integer and name be not empty
+            if (ctype_digit($var[0]) && !empty($var[1])) {
+                //check format email
+                if (!filter_var($var[2], FILTER_VALIDATE_EMAIL)) {
+                    print('Email wrong format!');
                     return false;
                 }
-            }
-            //check format email of record
-            if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
-                print('Email wrong format!');
+            } else {
+                print('id must be Integer and name not null!');
                 return false;
             }
-            return true;
-        } else {
-            print('id must be Integer and name not null!');
+        }
+        return true;
+    }
+    public function checkId($handle)
+    {
+        $array = [];
+        while ($var = fgetcsv($handle)) {
+            $array[] = $var[0];
+            if (sizeof($array) == 1000) {
+                if (!$this->existId($array)) return false;
+                $array = [];
+            }
+        }
+        if (!empty($array)) {
+            if (!$this->existId($array)) return false;
+        }
+        return true;
+    }
+    public function existId($array)
+    {
+        $users = User::whereIn('id', $array)->get();
+        if (!empty($users[0])) {
+            print('Duplicate id.Try Again');
             return false;
         }
+        return true;
     }
     public function handle()
     {
         $time_pre = microtime(true);
         $path = storage_path('app/public/ListModel.csv');
         $handle = fopen($path, 'r');
-        $array = [];
-        $check = true;
-        while ($var = fgetcsv($handle)) {
-            $array[] = $var[0];
-            if (!$this->validate($var, $array,false)) {
-                return;
-            }
-            if (sizeof($array) == 1000) {
-                $array = [];
-            }
-        }
-        if(!empty($array)){
-            if (!$this->validate($var, $array,true)) {
-                return;
-            }
-        }
+        //check exist id in database or not
+        if(!$this->checkId($handle))return;
+        //validate type input each record
+        if(!$this->validateType($handle))return;
+        //insert database
         DB::transaction(function () {
             LazyCollection::make(function () {
                 $path = storage_path('app/public/ListModel.csv');
