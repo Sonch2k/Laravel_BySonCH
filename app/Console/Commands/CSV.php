@@ -44,20 +44,16 @@ class CSV extends Command
 //        parent::__construct();
 //    }
 
-    public function validate($list, $array)
+    public function validate($list, $array, $check)
     {
-        //check id must integer and name be not empty
         if (ctype_digit($list[0]) && !empty($list[1])) {
-            //check number of elements in id array
-            if (sizeof($array) == 1000) {
+            if (sizeof($array) == 1000 || $check == false) {
                 $users = User::whereIn('id', $array)->get();
-                //check existed id in database or not
                 if (!empty($users[0])) {
                     print('Duplicate id.Try Again');
                     return false;
                 }
             }
-            //check format email of user
             if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
                 print('Email wrong format!');
                 return false;
@@ -75,39 +71,43 @@ class CSV extends Command
         $path = storage_path('app/public/ListModel.csv');
         $handle = fopen($path, 'r');
         $array = [];
+        $check = true;
         while ($var = fgetcsv($handle)) {
             $array[] = $var[0];
-            if (!$this->validate($var, $array)) {
+            if (fgetcsv($handle) == false) {
+                $check = false;
+            }
+            if (!$this->validate($var, $array, $check)) {
                 return;
             }
             if (sizeof($array) == 1000) {
                 $array = [];
             }
         }
-        DB::transaction(function () {
-            LazyCollection::make(function () {
-                $path = storage_path('app/public/ListModel.csv');
-                $handle = fopen($path, 'r');
-                while ($line = fgetcsv($handle)) {
-                    yield $line;
-                }
-            })
-                ->chunk(1000)
-                ->each(function ($lines) {
-                    $list = [];
-                    foreach ($lines as $x) {
-                        if (isset($x)) {
-                            $list[] = [
-                                "id" => $x[0],
-                                "name" => $x[1],
-                                "email" => $x[2],
-                                "password" => $x[4],
-                            ];
-                        }
-                    }
-                    DB::table('users')->insert($list);
-                });
-        });
+//        DB::transaction(function () {
+//            LazyCollection::make(function () {
+//                $path = storage_path('app/public/ListModel.csv');
+//                $handle = fopen($path, 'r');
+//                while ($line = fgetcsv($handle)) {
+//                    yield $line;
+//                }
+//            })
+//                ->chunk(1000)
+//                ->each(function ($lines) {
+//                    $list = [];
+//                    foreach ($lines as $x) {
+//                        if (isset($x)) {
+//                            $list[] = [
+//                                "id" => $x[0],
+//                                "name" => $x[1],
+//                                "email" => $x[2],
+//                                "password" => $x[4],
+//                            ];
+//                        }
+//                    }
+//                    DB::table('users')->insert($list);
+//                });
+//        });
         $time_post = microtime(true);
         $exec_time = $time_post - $time_pre;
         print ('data be done in ');
