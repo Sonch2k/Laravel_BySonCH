@@ -39,12 +39,20 @@ class CSV extends Command
      *
      * @return void
      */
-    public function validate($list, $array, $check)
+    public function validate($list, $array,$check)
     {
+        if($check==true){
+            $users = User::whereIn('id', $array)->get();
+            if (!empty($users[0])) {
+                print('Duplicate id.Try Again');
+                return false;
+            }
+            return true;
+        }
         //check id must integer and name not empty
         if (ctype_digit($list[0]) && !empty($list[1])) {
             //check number of elements in id array, is last record of file csv or not
-            if (sizeof($array) == 1000 || $check == false) {
+            if (sizeof($array) == 1000) {
                 $users = User::whereIn('id', $array)->get();
                 if (!empty($users[0])) {
                     print('Duplicate id.Try Again');
@@ -71,14 +79,16 @@ class CSV extends Command
         $check = true;
         while ($var = fgetcsv($handle)) {
             $array[] = $var[0];
-            if (fgetcsv($handle) == false) {
-                $check = false;
-            }
-            if (!$this->validate($var, $array, $check)) {
+            if (!$this->validate($var, $array,false)) {
                 return;
             }
             if (sizeof($array) == 1000) {
                 $array = [];
+            }
+        }
+        if(!empty($array)){
+            if (!$this->validate($var, $array,true)) {
+                return;
             }
         }
         DB::transaction(function () {
