@@ -80,16 +80,7 @@ class CSV extends Command
         }
         return true;
     }
-    public function handle()
-    {
-        $time_pre = microtime(true);
-        $path = storage_path('app/public/ListModel.csv');
-        $handle = fopen($path, 'r');
-        //check exist id in database or not
-        if(!$this->checkId($handle))return;
-        //validate type input each record
-        if(!$this->validateType($handle))return;
-        //insert database
+    public function insertData(){
         DB::transaction(function () {
             LazyCollection::make(function () {
                 $path = storage_path('app/public/ListModel.csv');
@@ -114,6 +105,18 @@ class CSV extends Command
                     DB::table('users')->insert($list);
                 });
         });
+    }
+    public function handle()
+    {
+        $time_pre = microtime(true);
+        $path = storage_path('app/public/ListModel.csv');
+        $handle = fopen($path, 'r');
+        //check exist id in database or not
+        if(!$this->checkId($handle))return;
+        //validate type input each record
+        if(!$this->validateType($handle))return;
+        //insert database
+        $this->insertData();
         $time_post = microtime(true);
         $exec_time = $time_post - $time_pre;
         print ('data be done in ');
