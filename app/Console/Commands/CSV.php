@@ -46,14 +46,18 @@ class CSV extends Command
 
     public function validate($list, $array)
     {
+        //check id must integer and name be not empty
         if (ctype_digit($list[0]) && !empty($list[1])) {
+            //check number of elements in id array
             if (sizeof($array) == 1000) {
                 $users = User::whereIn('id', $array)->get();
+                //check existed id in database or not
                 if (!empty($users[0])) {
                     print('Duplicate id.Try Again');
                     return false;
                 }
             }
+            //check format email of user
             if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
                 print('Email wrong format!');
                 return false;
