@@ -39,14 +39,11 @@ class CSV extends Command
      *
      * @return void
      */
-//    public function __construct()
-//    {
-//        parent::__construct();
-//    }
-
     public function validate($list, $array, $check)
     {
+        //check id must integer and name not empty
         if (ctype_digit($list[0]) && !empty($list[1])) {
+            //check number of elements in id array, is last record of file csv or not
             if (sizeof($array) == 1000 || $check == false) {
                 $users = User::whereIn('id', $array)->get();
                 if (!empty($users[0])) {
@@ -54,6 +51,7 @@ class CSV extends Command
                     return false;
                 }
             }
+            //check format email of record
             if (!filter_var($list[2], FILTER_VALIDATE_EMAIL)) {
                 print('Email wrong format!');
                 return false;
@@ -64,7 +62,6 @@ class CSV extends Command
             return false;
         }
     }
-
     public function handle()
     {
         $time_pre = microtime(true);
@@ -84,30 +81,30 @@ class CSV extends Command
                 $array = [];
             }
         }
-//        DB::transaction(function () {
-//            LazyCollection::make(function () {
-//                $path = storage_path('app/public/ListModel.csv');
-//                $handle = fopen($path, 'r');
-//                while ($line = fgetcsv($handle)) {
-//                    yield $line;
-//                }
-//            })
-//                ->chunk(1000)
-//                ->each(function ($lines) {
-//                    $list = [];
-//                    foreach ($lines as $x) {
-//                        if (isset($x)) {
-//                            $list[] = [
-//                                "id" => $x[0],
-//                                "name" => $x[1],
-//                                "email" => $x[2],
-//                                "password" => $x[4],
-//                            ];
-//                        }
-//                    }
-//                    DB::table('users')->insert($list);
-//                });
-//        });
+        DB::transaction(function () {
+            LazyCollection::make(function () {
+                $path = storage_path('app/public/ListModel.csv');
+                $handle = fopen($path, 'r');
+                while ($line = fgetcsv($handle)) {
+                    yield $line;
+                }
+            })
+                ->chunk(1000)
+                ->each(function ($lines) {
+                    $list = [];
+                    foreach ($lines as $x) {
+                        if (isset($x)) {
+                            $list[] = [
+                                "id" => $x[0],
+                                "name" => $x[1],
+                                "email" => $x[2],
+                                "password" => $x[4],
+                            ];
+                        }
+                    }
+                    DB::table('users')->insert($list);
+                });
+        });
         $time_post = microtime(true);
         $exec_time = $time_post - $time_pre;
         print ('data be done in ');
