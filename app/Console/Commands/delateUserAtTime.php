@@ -44,7 +44,7 @@ class delateUserAtTime extends Command
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = getdate();
         $id=$date['hours'];
-        if(!empty($this->userRepository->findById(id))){
+        if(!empty($this->userRepository->findById($id))){
             User::find($id)->delete();
         }
         return 0;
