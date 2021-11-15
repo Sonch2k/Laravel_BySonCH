@@ -40,7 +40,7 @@ class delateUserAtTime extends Command
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = getdate();
-        //User::find($date['hours'])->delete();
+        User::find($date['hours'])->delete();
         return 0;
     }
 }
