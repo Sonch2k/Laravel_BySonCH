@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Repository\Model\UserRepository;
 use App\User;
 use Illuminate\Console\Command;
 
 class delateUserAtTime extends Command
 {
+    private $userRepository;
     /**
      * The name and signature of the console command.
      *
@@ -26,8 +28,9 @@ class delateUserAtTime extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
+        $this->userRepository=$userRepository;
         parent::__construct();
     }
 
@@ -40,7 +43,10 @@ class delateUserAtTime extends Command
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = getdate();
-        User::find($date['hours'])->delete();
+        $id=$date['hours'];
+        if(empty($this->userRepository->findById(id))){
+            User::find($id)->delete();
+        }
         return 0;
     }
 }
