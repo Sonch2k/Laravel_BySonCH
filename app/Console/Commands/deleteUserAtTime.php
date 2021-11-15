@@ -6,7 +6,7 @@ use App\Http\Repository\Model\UserRepository;
 use App\User;
 use Illuminate\Console\Command;
 
-class delateUserAtTime extends Command
+class deleteUserAtTime extends Command
 {
     private $userRepository;
     /**
@@ -47,6 +47,5 @@ class delateUserAtTime extends Command
         if(!empty($user)){
             User::find($date['hours'])->delete();
         }
-        return 0;
     }
 }
