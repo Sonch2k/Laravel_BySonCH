@@ -102,7 +102,7 @@ return [
         'BATCH-01' => [
             'driver' => 'single',
             'path' => storage_path('logs/delete.log'),
-            'level' => 'critical',
+            'level' => 'debug',
         ],
     ],
 

@@ -45,7 +45,7 @@ class deleteUserAtTime extends Command
         $user = User::find($date['hours']);
         if (!empty($user)) {
             User::find($date['hours'])->delete();
-            \Log::channel('BATCH-01')->critical('Delete user by id successfully:' . $date['hours']);
+            \Log::channel('BATCH-01')->info('Delete user by id successfully:'. $date['hours']);
         }
     }
 }
