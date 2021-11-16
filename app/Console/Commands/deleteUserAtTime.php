@@ -40,11 +40,12 @@ class deleteUserAtTime extends Command
      */
     public function handle()
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = getdate();
-        $user = User::find($date['minutes']);
+        $user = User::find($date['hours']);
         if (!empty($user)) {
-            User::find($date['minutes'])->delete();
-            \Log::channel('BATCH-01')->critical('Delete user by id successfully:' . $date['minutes']);
+            User::find($date['hours'])->delete();
+            \Log::channel('BATCH-01')->critical('Delete user by id successfully:' . $date['hours']);
         }
     }
 }
