@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\deleteUserAtTime;
 use App\Console\Commands\Post;
+use App\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,8 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        deleteUserAtTime::class,
-        Post::class
+        Commands\deleteUserAtTime::class,
+        Commands\DemoCron::class,
     ];
 
     /**
@@ -27,7 +28,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('user:delete-time')->hourlyAt(5);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = getdate();
+        $time=$date['minutes'];
+        $schedule->command('user:delete-time')->hourlyAt($time);
     }
     /**
      * Register the commands for the application.
@@ -37,7 +41,6 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

@@ -2,19 +2,16 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Repository\Model\UserRepository;
-use App\User;
 use Illuminate\Console\Command;
 
-class Post extends Command
+class DemoCron extends Command
 {
-    private $userRepository;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'post:drop';
+    protected $signature = 'demo:cron';
 
     /**
      * The console command description.
@@ -28,9 +25,8 @@ class Post extends Command
      *
      * @return void
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct()
     {
-        $this->userRepository=$userRepository;
         parent::__construct();
     }
 
@@ -41,11 +37,13 @@ class Post extends Command
      */
     public function handle()
     {
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $date = getdate();
-        $user=User::find($date['hours']);
-        if(!empty($user)){
-            User::find($date['hours'])->delete();
-        }
+        \Log::info("Cron is working fine!");
+
+        /*
+           Write your database logic we bellow:
+           Item::create(['name'=>'hello new']);
+        */
+
+        $this->info('Demo:Cron Cummand Run successfully!');
     }
 }

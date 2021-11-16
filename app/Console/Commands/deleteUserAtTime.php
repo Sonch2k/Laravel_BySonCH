@@ -28,9 +28,8 @@ class deleteUserAtTime extends Command
      *
      * @return void
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct()
     {
-        $this->userRepository=$userRepository;
         parent::__construct();
     }
 
@@ -41,11 +40,10 @@ class deleteUserAtTime extends Command
      */
     public function handle()
     {
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = getdate();
-        $user=User::find($date['hours']);
+        $user=User::find($date['minutes']);
         if(!empty($user)){
-            User::find($date['hours'])->delete();
+            User::find($date['minutes'])->delete();
         }
     }
 }
